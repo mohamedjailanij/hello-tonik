@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-tonik-deployment
+  namespace: staging
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello-tonik
+  template:
+    metadata:
+      labels:
+        app: hello-tonik
+    spec:
+      containers:
+        - name: hello-tonik
+          image: asia-southeast1-docker.pkg.dev/tonik-staging-project/hello-tonik/hello-tonik:latest
+          ports:
+            - containerPort: 8080

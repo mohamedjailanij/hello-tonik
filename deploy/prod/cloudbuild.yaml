@@ -1,0 +1,19 @@
+steps:
+  - name: "gcr.io/cloud-builders/gcloud"
+    args: [
+      "container", "clusters", "get-credentials", "prod-cluster",
+      "--zone", "asia-southeast1", "--project", "tonik-prod-project"
+    ]
+
+  - name: "gcr.io/cloud-builders/kubectl"
+    args: [
+      "set", "image", "deployment/hello-tonik-deployment",
+      "hello-tonik=asia-southeast1-docker.pkg.dev/tonik-staging-project/hello-tonik/hello-tonik:$SHORT_SHA",
+      "--namespace=production"
+    ]
+    env:
+      - "CLOUDSDK_COMPUTE_ZONE=asia-southeast1"
+      - "CLOUDSDK_CONTAINER_CLUSTER=prod-cluster"
+
+images:
+  - "asia-southeast1-docker.pkg.dev/tonik-staging-project/hello-tonik/hello-tonik:$SHORT_SHA"
