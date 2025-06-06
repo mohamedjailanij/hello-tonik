@@ -5,7 +5,7 @@ steps:
       [
         'build',
         '-t',
-        'asia-southeast1-docker.pkg.dev/western-emitter-461905-e7/cicd-testing/my-app:$SHORT_SHA',
+        'asia-southeast1-docker.pkg.dev/western-emitter-461905-e7/cicd-testing/hello-tonik:$SHORT_SHA',
         '.'
       ]
 
@@ -15,7 +15,7 @@ steps:
       [
         'run',
         '--rm',
-        'asia-southeast1-docker.pkg.dev/western-emitter-461905-e7/cicd-testing/my-app:$SHORT_SHA',
+        'asia-southeast1-docker.pkg.dev/western-emitter-461905-e7/cicd-testing/hello-tonik:$SHORT_SHA',
         'python',  # Example test command, adjust as per your app's testing mechanism
         '-m',
         'unittest'
@@ -31,7 +31,7 @@ steps:
       ]
 
 images:
-  - 'asia-southeast1-docker.pkg.dev/western-emitter-461905-e7/cicd-testing/my-app:$SHORT_SHA'
+  - 'asia-southeast1-docker.pkg.dev/western-emitter-461905-e7/cicd-testing/hello-tonik:$SHORT_SHA'
 
 options:
   logging: CLOUD_LOGGING_ONLY  # Log to Cloud Logging only (no Cloud Storage)

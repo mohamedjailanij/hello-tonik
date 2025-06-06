@@ -30,3 +30,6 @@ steps:
 
 images:
   - "asia-southeast1-docker.pkg.dev/tonik-staging-project/hello-tonik/hello-tonik:$SHORT_SHA"
+  
+options:
+  logging: CLOUD_LOGGING_ONLY
