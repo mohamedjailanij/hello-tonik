@@ -2,14 +2,14 @@ steps:
   - name: "gcr.io/cloud-builders/docker"
     args: [
       "build", "-t",
-      "asia-southeast1-docker.pkg.dev/tonik-staging-project/hello-tonik/hello-tonik:$SHORT_SHA",
+      "asia-southeast1-docker.pkg.dev/western-emitter-461905-e7/cicd-testing/hello-tonik:$SHORT_SHA",
       "."
     ]
 
   - name: "gcr.io/cloud-builders/docker"
     args: [
       "push",
-      "asia-southeast1-docker.pkg.dev/tonik-staging-project/hello-tonik/hello-tonik:$SHORT_SHA"
+      "asia-southeast1-docker.pkg.dev/western-emitter-461905-e7/cicd-testing/hello-tonik:$SHORT_SHA"
     ]
 
   - name: "gcr.io/cloud-builders/gcloud"
@@ -21,7 +21,7 @@ steps:
   - name: "gcr.io/cloud-builders/kubectl"
     args: [
       "set", "image", "deployment/hello-tonik-deployment",
-      "hello-tonik=asia-southeast1-docker.pkg.dev/tonik-staging-project/hello-tonik/hello-tonik:$SHORT_SHA",
+      "asia-southeast1-docker.pkg.dev/western-emitter-461905-e7/cicd-testing/hello-tonik:$SHORT_SHA",
       "--namespace=staging"
     ]
     env:
@@ -29,7 +29,7 @@ steps:
       - "CLOUDSDK_CONTAINER_CLUSTER=staging-cluster"
 
 images:
-  - "asia-southeast1-docker.pkg.dev/tonik-staging-project/hello-tonik/hello-tonik:$SHORT_SHA"
+  - "asia-southeast1-docker.pkg.dev/western-emitter-461905-e7/cicd-testing/hello-tonik:$SHORT_SHA"
   
 options:
   logging: CLOUD_LOGGING_ONLY
