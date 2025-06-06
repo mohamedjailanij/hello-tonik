@@ -1,35 +1,52 @@
 steps:
-  - name: "gcr.io/cloud-builders/docker"
-    args: [
-      "build", "-t",
-      "asia-southeast1-docker.pkg.dev/western-emitter-461905-e7/cicd-testing/hello-tonik:$SHORT_SHA",
-      "."
-    ]
+  # Step 1: Build Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      [
+        'build',
+        '-t',
+        'asia-southeast1-docker.pkg.dev/western-emitter-461905-e7/cicd-testing/hello-tonik:$SHORT_SHA',
+        '.'
+      ]
 
-  - name: "gcr.io/cloud-builders/docker"
-    args: [
-      "push",
-      "asia-southeast1-docker.pkg.dev/western-emitter-461905-e7/cicd-testing/hello-tonik:$SHORT_SHA"
-    ]
+  # Step 2: Push Docker image to Google Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      [
+        'push',
+        'asia-southeast1-docker.pkg.dev/western-emitter-461905-e7/cicd-testing/hello-tonik:$SHORT_SHA'
+      ]
 
-  - name: "gcr.io/cloud-builders/gcloud"
-    args: [
-      "container", "clusters", "get-credentials", "staging-cluster",
-      "--zone", "asia-southeast1", "--project", "western-emitter-461905-e7"
-    ]
+  # Step 3: Authenticate to GKE cluster
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      [
+        'container',
+        'clusters',
+        'get-credentials',
+        'cicd-automation-cluster',  # Your GKE cluster name
+        '--zone',
+        'asia-southeast1',         # Cluster zone
+        '--project',
+        'western-emitter-461905-e7' # Project ID
+      ]
 
-  - name: "gcr.io/cloud-builders/kubectl"
-    args: [
-      "set", "image", "deployment/hello-tonik-deployment",
-      "hello-tonik=asia-southeast1-docker.pkg.dev/western-emitter-461905-e7/cicd-testing/hello-tonik:$SHORT_SHA",
-      "--namespace=cicd-test-service"
-    ]
+  # Step 4: Update Kubernetes deployment with the new image
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args:
+      [
+        'set',
+        'image',
+        'deployment/hello-tonik-deployment',  # Deployment name for hello-tonik
+        'hello-tonik=asia-southeast1-docker.pkg.dev/western-emitter-461905-e7/cicd-testing/hello-tonik:$SHORT_SHA',
+        '--namespace=cicd-test-service'        # Namespace used
+      ]
     env:
-      - "CLOUDSDK_COMPUTE_ZONE=asia-southeast1"
-      - "CLOUDSDK_CONTAINER_CLUSTER=staging-cluster"
+      - 'CLOUDSDK_COMPUTE_ZONE=asia-southeast1'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=cicd-automation-cluster'
 
 images:
-  - "asia-southeast1-docker.pkg.dev/western-emitter-461905-e7/cicd-testing/hello-tonik:$SHORT_SHA"
+  - 'asia-southeast1-docker.pkg.dev/western-emitter-461905-e7/cicd-testing/hello-tonik:$SHORT_SHA'
 
 options:
   logging: CLOUD_LOGGING_ONLY
