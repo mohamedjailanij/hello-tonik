@@ -15,14 +15,14 @@ steps:
   - name: "gcr.io/cloud-builders/gcloud"
     args: [
       "container", "clusters", "get-credentials", "staging-cluster",
-      "--zone", "asia-southeast1", "--project", "tonik-staging-project"
+      "--zone", "asia-southeast1", "--project", "western-emitter-461905-e7"
     ]
 
   - name: "gcr.io/cloud-builders/kubectl"
     args: [
       "set", "image", "deployment/hello-tonik-deployment",
-      "asia-southeast1-docker.pkg.dev/western-emitter-461905-e7/cicd-testing/hello-tonik:$SHORT_SHA",
-      "--namespace=staging"
+      "hello-tonik=asia-southeast1-docker.pkg.dev/western-emitter-461905-e7/cicd-testing/hello-tonik:$SHORT_SHA",
+      "--namespace=cicd-test-service"
     ]
     env:
       - "CLOUDSDK_COMPUTE_ZONE=asia-southeast1"
@@ -30,6 +30,6 @@ steps:
 
 images:
   - "asia-southeast1-docker.pkg.dev/western-emitter-461905-e7/cicd-testing/hello-tonik:$SHORT_SHA"
-  
+
 options:
   logging: CLOUD_LOGGING_ONLY
