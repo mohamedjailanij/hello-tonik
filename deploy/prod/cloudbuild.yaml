@@ -8,7 +8,7 @@ steps:
   - name: "gcr.io/cloud-builders/kubectl"
     args: [
       "set", "image", "deployment/hello-tonik-deployment",
-      "hello-tonik=asia-southeast1-docker.pkg.dev/tonik-staging-project/hello-tonik/hello-tonik:$SHORT_SHA",
+      "hello-tonik=asia-southeast1-docker.pkg.dev/western-emitter-461905-e7/cicd-testing/hello-tonik:$SHORT_SHA",
       "--namespace=production"
     ]
     env:
@@ -16,4 +16,4 @@ steps:
       - "CLOUDSDK_CONTAINER_CLUSTER=prod-cluster"
 
 images:
-  - "asia-southeast1-docker.pkg.dev/tonik-staging-project/hello-tonik/hello-tonik:$SHORT_SHA"
+  - "asia-southeast1-docker.pkg.dev/western-emitter-461905-e7/cicd-testing/hello-tonik:$SHORT_SHA"
